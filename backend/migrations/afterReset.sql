@@ -1,4 +1,4 @@
--- Roles (idempotent)
+-- Roles (idempotent — already created by init.sh, but needed for graphile-migrate reset on shadow DB)
 DO $$
 BEGIN
   IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = 'app_postgraphile') THEN
@@ -63,6 +63,9 @@ CREATE TABLE IF NOT EXISTS verification (
   "updatedAt" TIMESTAMP NOT NULL DEFAULT now()
 );
 
+-- Grant read on BetterAuth tables for session lookup
+GRANT SELECT ON "user", session, account, verification TO app_postgraphile;
+
 -- App schema
 CREATE SCHEMA IF NOT EXISTS app_public;
 GRANT USAGE ON SCHEMA app_public TO app_postgraphile, app_authenticated, app_anonymous;
@@ -74,5 +77,5 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA app_public
 ALTER DEFAULT PRIVILEGES IN SCHEMA app_public
   GRANT SELECT ON TABLES TO app_anonymous;
 
--- Grant read on BetterAuth tables for session lookup
-GRANT SELECT ON "user", session, account TO app_postgraphile;
+ALTER DEFAULT PRIVILEGES IN SCHEMA app_public
+  GRANT USAGE, SELECT ON SEQUENCES TO app_authenticated;
