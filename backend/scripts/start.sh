@@ -12,8 +12,8 @@ until node -e "
 done
 echo "PostgreSQL is ready."
 
-echo "Running graphile-migrate..."
-npx graphile-migrate migrate 2>&1 || echo "graphile-migrate: no committed migrations to apply (this is normal on first run)"
+echo "Running graphile-migrate reset..."
+npx graphile-migrate reset --erase 2>&1
 
 echo "Starting server..."
 exec npx tsx src/index.ts
