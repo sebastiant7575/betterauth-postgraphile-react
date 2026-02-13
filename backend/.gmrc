@@ -1,0 +1,10 @@
+{
+  "connectionString": "postgres://app_postgraphile:postgraphile_pass@postgres:5435/app",
+  "shadowConnectionString": "postgres://postgres:postgres@postgres:5435/app_shadow",
+  "rootConnectionString": "postgres://postgres:postgres@postgres:5435/app",
+  "pgSettings": {},
+  "placeholders": {},
+  "afterReset": ["afterReset.sql"],
+  "afterAllMigrations": [],
+  "blankMigrationContent": "-- Enter migration here\n"
+}
